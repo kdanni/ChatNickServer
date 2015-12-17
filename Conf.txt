@@ -1,5 +1,5 @@
-﻿txt ?xml version="1.0" encoding="utf-8"?>
-configuration>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
 	<configSections>
 		<section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
 	</configSections>
@@ -7,18 +7,15 @@ configuration>
 		<supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0,Profile=Client" />
 	</startup>
 	<appSettings>
-    	<add key="db.server" value="127.0.0.1"/>
-    	<add key="db.port" value="3306"/>
-    	<add key="db.user" value="dotNet"/>
-    	<add key="db.db" value="dotnet3"/>
+    	<add key="db.server" value="127.0.0.1" />
+    	<add key="db.port" value="3306" />
+    	<add key="db.user" value="dotNet" />
+    	<add key="db.db" value="dotnet4" />
     </appSettings>
 	<system.data>
-		<DbProviderFactories >
+		<DbProviderFactories>
 			<remove invariant="MySql.Data.MySqlClient" />
-			<add name="MySQL" description="ADO.Net driver for MySQL" invariant="MySql.Data.MySqlClient" type="MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data"/>
-	   		<!--
-	   		<add name="MySQL Data Provider" invariant="MySql.Data.MySqlClient" description=".Net Framework Data Provider for MySQL" type="MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
-	   		-->
+			<add name="MySQL" description="ADO.Net driver for MySQL" invariant="MySql.Data.MySqlClient" type="MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data" />
 		</DbProviderFactories>
 	</system.data>
 	<entityFramework codeConfigurationType="MySql.Data.Entity.MySqlEFConfiguration, MySql.Data.Entity.EF6">
@@ -26,6 +23,56 @@ configuration>
 		<providers>
 			<provider invariantName="MySql.Data.MySqlClient" type="MySql.Data.MySqlClient.MySqlProviderServices, MySql.Data.Entity.EF6" />
 			<provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
-		</providers>
+    	</providers>
 	</entityFramework>
-/configuration>
+	<system.serviceModel>
+		<services>
+			<service name="NickServer.PeerService" behaviorConfiguration="MyServiceBehavior">
+				<endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange" />
+				<endpoint address="http" binding="basicHttpBinding" contract="NickServer.IPeerService" />
+				<host>
+					<baseAddresses>
+						<add baseAddress="http://localhost:8085/server/peer/" />
+					</baseAddresses>
+				</host>
+			</service>
+			<service name="NickServer.NickService" behaviorConfiguration="MyServiceBehavior">
+				<endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange" />
+				<endpoint address="http" binding="basicHttpBinding" contract="NickServer.INickService" />
+				<host>
+					<baseAddresses>
+						<add baseAddress="http://localhost:8085/server/nick/" />
+					</baseAddresses>
+				</host>
+			</service>
+			<service name="NickServer.MemoService" behaviorConfiguration="MyServiceBehavior">
+				<endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange" />
+				<endpoint address="http" binding="basicHttpBinding" contract="NickServer.IMemoService" />
+				<host>
+					<baseAddresses>
+						<add baseAddress="http://localhost:8085/server/memo/" />
+					</baseAddresses>
+				</host>
+			</service>
+		</services>
+		<behaviors>
+			<serviceBehaviors>
+				<behavior name="MyServiceBehavior">
+					<serviceMetadata httpGetEnabled="true" httpsGetEnabled="true" />
+					<serviceDebug includeExceptionDetailInFaults="false" />
+					<serviceThrottling maxConcurrentCalls="1000" maxConcurrentInstances="1000" maxConcurrentSessions="1000" />
+				</behavior>
+			</serviceBehaviors>
+		</behaviors>
+	</system.serviceModel>
+	<system.diagnostics>
+	    <trace autoflush="true" />
+	    <sources>
+	            <source name="System.ServiceModel" switchValue="Information, ActivityTracing" propagateActivity="true">
+	            <listeners>
+	               <add name="sdt" type="System.Diagnostics.XmlWriterTraceListener" initializeData="WCF_trace.log" />
+	            </listeners>
+	         </source>
+	    </sources>
+	</system.diagnostics>
+</configuration>
