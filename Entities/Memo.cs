@@ -4,6 +4,7 @@ namespace NickServer
 {
 	public class Memo
 	{
+		
 		public long Id {
 			get;
 			set;

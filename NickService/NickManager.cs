@@ -56,10 +56,7 @@ namespace NickServer
 						if (qu.Count() > 0) {
 							foreach(User u in qu){
 								if(u.Password.Equals(macHash)){
-									u.LastOnline = DateTime.UtcNow;
-									ctx.SaveChanges();
-									conn.CommitTransaction();
-									return;
+									ctx.Users.Remove(u);
 								} else
 								if(u.LastOnline.Add(TIMEOUT).CompareTo(DateTime.UtcNow) > 0){
 									throw new NickAlreadyRegistratedException();
