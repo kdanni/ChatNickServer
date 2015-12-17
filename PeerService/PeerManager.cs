@@ -58,11 +58,12 @@ namespace NickServer
 								Address = clientUri.ToString(),
 								MAC_AddressHash = hash
 							};
+							ctx.Peers.Add(peer);
 						} else {
 							peer = qp.First ();
+							peer.Address = clientUri.ToString();
 						}
 
-						ctx.Peers.Add(peer);
 						ctx.SaveChanges();
 					}
 					conn.CommitTransaction ();

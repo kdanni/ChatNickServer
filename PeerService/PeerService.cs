@@ -13,7 +13,7 @@ namespace NickServer
 		public bool registerPeer (string hash, Uri clientUri)
 		{
 			try {
-				Console.WriteLine("Peer registration called by " + hash + "@" + clientUri);
+				Console.WriteLine(DateTime.Now + " Peer registration called by " + hash + "@" + clientUri);
 				PeerManager.registerPeer (hash, clientUri);
 				return true;
 			} catch {
@@ -24,8 +24,9 @@ namespace NickServer
 		public bool kickoutPeer (string hash, string kickerHash)
 		{
 			try {
-				Console.WriteLine("Peer kickout called by " + kickerHash );
+				Console.WriteLine(DateTime.Now + " Peer kickout called by " + kickerHash );
 				PeerManager.kickoutPeer (hash, kickerHash);
+				Console.WriteLine(DateTime.Now + " " + hash + " is kickedout called by " + kickerHash );
 				return true;
 			} catch {
 				return false;
@@ -34,7 +35,7 @@ namespace NickServer
 
 		public System.Collections.Generic.List<Uri> getPeerList ()
 		{
-			Console.WriteLine("Peer list quered");
+			Console.WriteLine(DateTime.Now + " Peer list quered");
 			return PeerManager.getPeerList ();
 		}
 

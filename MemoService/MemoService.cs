@@ -14,7 +14,7 @@ namespace NickServer
 		public void putPublicMemo (string message, string sender, string hash)
 		{
 			try{
-				Console.WriteLine("Public memo put by " + hash);
+				Console.WriteLine(DateTime.Now + " Public memo put by " + hash);
 				MemoManager.putMemo(message,MemoManager.ANON_NAME, sender);
 
 			} catch {}
@@ -23,7 +23,7 @@ namespace NickServer
 		public void putMemo (string message, string to, string from, string hash)
 		{
 			try{
-				Console.WriteLine("Memo put by " + hash);
+				Console.WriteLine(DateTime.Now + " Memo put by " + hash);
 				MemoManager.putMemo(message,to, from);
 
 			} catch {}
@@ -32,7 +32,7 @@ namespace NickServer
 		public List<MemoData> getMyMemos (string nick, string hash)
 		{
 			try {
-				Console.WriteLine("Memos get by " + hash);
+				Console.WriteLine(DateTime.Now + " Memos get by " + hash);
 				NickManager.refreshNick(nick, hash);
 
 				List<Memo> memoList = MemoManager.getMemos(nick);
